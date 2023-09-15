@@ -17,22 +17,22 @@
     
 
     <!--[if lt IE 9]>
-    <script src="/assets/js/html5shim.js?_=1655346851"></script>
+    <script src="/assets/js/html5shim.js?_=1694807054"></script>
     <![endif]-->
 
     <!-- Enable responsive viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Le styles -->
-    <link rel="stylesheet" href="/assets/css/site.css?_=1655346851">
-    <link rel="stylesheet" href="/assets/css/bootstrap-responsive.css?_=1655346851">
-    <link rel="stylesheet" href="/assets/css/prettify.css?_=1655346851">
-    <link rel="stylesheet" href="/assets/css/lightbox.css?_=1655346851">
-    <link rel="stylesheet" href="/assets/css/fontawesome-all.min.css?_=1655346851">
-    <link rel="stylesheet" href="/assets/css/syntax.css?_=1655346851">
+    <link rel="stylesheet" href="/assets/css/site.css?_=1694807054">
+    <link rel="stylesheet" href="/assets/css/bootstrap-responsive.css?_=1694807054">
+    <link rel="stylesheet" href="/assets/css/prettify.css?_=1694807054">
+    <link rel="stylesheet" href="/assets/css/lightbox.css?_=1694807054">
+    <link rel="stylesheet" href="/assets/css/fontawesome-all.min.css?_=1694807054">
+    <link rel="stylesheet" href="/assets/css/syntax.css?_=1694807054">
 
-    <link rel="stylesheet" type="text/css" href="/assets/vendor/slick-1.5.9/slick.css?_=1655346851"/>
-    <link rel="stylesheet" type="text/css" href="/assets/vendor/slick-1.5.9/slick-theme.css?_=1655346851"/>
+    <link rel="stylesheet" type="text/css" href="/assets/vendor/slick-1.5.9/slick.css?_=1694807054"/>
+    <link rel="stylesheet" type="text/css" href="/assets/vendor/slick-1.5.9/slick-theme.css?_=1694807054"/>
 
 
     <!-- Le fav and touch icons -->
@@ -78,12 +78,47 @@
         function load() { if (window.location.hash) shiftWindow(); }
     </script>
 
+    <!-- Plausible -->
+    <script defer data-domain="octoprint.org" src="https://plausible.octoprint.org/js/plausible.outbound-links.js"></script>
+    <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+    <script>
+        function handleLinkEvent(event) {
+            var link = event.target;
+            var middle = event.type == "auxclick" && event.which == 2;
+            var click = event.type == "click";
+            while (link && (typeof link.tagName == 'undefined' || link.tagName.toLowerCase() != 'a' || !link.href)) {
+                link = link.parentNode;
+            }
+            if (middle || click) {
+                let attributes = link.getAttribute('data-analytics').split(/,(.+)/);
+                let events = [JSON.parse(attributes[0]), JSON.parse(attributes[1] || '{}')];
+                plausible(...events);
+            }
+            if (!link.target) {
+                if (!(event.ctrlKey || event.metaKey || event.shiftKey) && click) {
+                    setTimeout(function () {
+                        location.href = link.href;
+                    }, 150);
+                    event.preventDefault();
+                }
+            }
+        }
+
+        window.addEventListener("load", () => {
+            let links = document.querySelectorAll('a[data-analytics]');
+            for (var i = 0; i < links.length; i++) {
+                links[i].addEventListener('click', handleLinkEvent);
+                links[i].addEventListener('auxclick', handleLinkEvent);
+            }
+        })
+    </script>
+
     <!-- Carbon -->
     <script>
         var disableStr = "carbon-disable";
         function carbonOptout() {
             //document.cookie = disableStr + "=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/; domain=octoprint.org";
-            document.cookie = disableStr + "=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/; domain=octoprint.org";
+            document.cookie = disableStr + "=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/; domain=octoprint.org; SameSite=Strict";
             window[disableStr] = true;
             alert("Carbon Ads sind jetzt deaktiviert! / Carbon Ads are now deactivated!");
         }
@@ -155,8 +190,8 @@
       <a href="javascript:void(0)" class="btn btn-burger btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><i class="fas fa-bars"></i></a>
       <div class="pull-right">
         <ul class="nav social-navbar">
-          <li><a href="/merch/" title="Get some merchandise!"><i class="fa fa-shopping-basket"></i></a></li>
-          <li><a href="/support-octoprint/" title="Support OctoPrint!" data-event-category="supportlink" data-event-action="navigation"><i class="fas fa-donate"></i></a></li>
+          <li><a href="/merch/" title="Get some merchandise!" data-analytics='"Merch Click", { "props": { "origin": "navbar"} }'><i class="fa fa-shopping-basket"></i></a></li>
+          <li><a href="/support-octoprint/" title="Support OctoPrint!" data-analytics='"Support Click", { "props": { "origin": "navbar"} }'><i class="fas fa-donate"></i></a></li>
         </ul>
       </div>
       <div class="nav-collapse collapse">
@@ -164,22 +199,24 @@
           <li><a href="/blog/">Blog</a></li>
           <li><a href="https://community.octoprint.org">Forum</a></li>
           <li><a href="/download/">Download</a></li>
-          <li><a href="/support-octoprint/" title="Support the project!" data-event-category="supportlink" data-event-action="donate">Donate</a></li>
-          <li><a href="/merch/" title="Get some merchandise!" data-event-category="merchlink" data-event-action="navbar">Merchandise</a></li>
+          <li><a href="/support-octoprint/" title="Support the project!" data-analytics='"Support Click", { "props": { "origin": "menu"} }'>Donate</a></li>
+          <li><a href="/merch/" title="Get some merchandise!" data-analytics='"Merch Click", { "props": { "origin": "menu"} }'>Merchandise</a></li>
           <li><a href="http://plugins.octoprint.org">Plugins</a></li>
           <li class="dropdown">
             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">More... <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="https://github.com/foosel/OctoPrint/wiki">Wiki</a></li>
               <li><a href="http://docs.octoprint.org">Documentation</a></li>
               <li><a href="https://community.octoprint.org/c/support/faq">FAQ</a></li>
               <li><a href="/media/">Media</a></li>
               <li class="divider"></li>
               <li><a href="/conduct/">Code of Conduct</a></li>
+              <li><a href="/security/">Security Policy</a></li>
               <li class="divider"></li>
-              <li><a href="https://github.com/foosel/OctoPrint">Source</a></li>
-              <li><a href="https://github.com/foosel/OctoPrint/blob/master/CONTRIBUTING.md">Contribution Guidelines</a></li>
-              <li><a href="https://github.com/foosel/OctoPrint/issues">Issuetracker</a></li>
+              <li><a href="https://github.com/OctoPrint/OctoPrint">Source</a></li>
+              <li><a href="https://github.com/OctoPrint/OctoPrint/blob/master/CONTRIBUTING.md">Contribution Guidelines</a></li>
+              <li><a href="https://github.com/OctoPrint/OctoPrint/issues">Issuetracker</a></li>
+              <li class="divider"></li>
+              <li><a href="/browser-check/">Browser Check</a></li>
             </ul>
           </li>
         </ul>
@@ -227,19 +264,19 @@
             
             <div class="categories">Release</div>
             
-            <h1><a href="/blog/2021/08/04/new-release-candidate-1.7.0rc1/">New release candidate: 1.7.0rc1</a></h1>
+            <h1><a href="/blog/2022/10/17/new-release-1.8.5/">New release: 1.8.5</a></h1>
 
             <div class="postmeta muted">
-                <span class="author">by Gina Häußge</span> &middot; <span class="date">04 Aug 2021</span>
+                <span class="author">by Gina Häußge</span> &middot; <span class="date">17 Oct 2022</span>
             </div>
 
             <div class="excerpt">
-                The first release candidate for the upcoming 1.7.0 release, containing new features, improvements and bug fixes.
+                This fifth bugfix release for 1.8.0 fixes two newly reported bugs and gets rid of a runtime warning.
             </div>
 
-            <a href="/blog/2021/08/04/new-release-candidate-1.7.0rc1/" class="read-more">Read More...</a>
+            <a href="/blog/2022/10/17/new-release-1.8.5/" class="read-more">Read More...</a>
         </article>
-        <div class="post-card span3"><img src="/assets/img/blog/2021-08/2021-08-04-octoprint-1.7.0rc1-card.png"></div>
+        <div class="post-card span3"><img src="/assets/img/blog/2022-10/2022-10-17-octoprint-1.8.5-card.png"></div>
     </div>
     
     
@@ -248,19 +285,61 @@
             
             <div class="categories">OctoPrint On Air</div>
             
-            <h1><a href="/blog/2021/07/27/octoprint-on-air-40/">OctoPrint On Air #40</a></h1>
+            <h1><a href="/blog/2022/10/05/octoprint-on-air-48/">OctoPrint On Air #48</a></h1>
 
             <div class="postmeta muted">
-                <span class="author">by Gina Häußge</span> &middot; <span class="date">27 Jul 2021</span>
+                <span class="author">by Gina Häußge</span> &middot; <span class="date">05 Oct 2022</span>
             </div>
 
             <div class="excerpt">
-                The fortieth episode of a monthly live broadcast for Patrons which was recorded on July 21st 2021.
+                The 48th episode of a regular live broadcast for Patrons which was recorded on September 29th 2022.
             </div>
 
-            <a href="/blog/2021/07/27/octoprint-on-air-40/" class="read-more">Read More...</a>
+            <a href="/blog/2022/10/05/octoprint-on-air-48/" class="read-more">Read More...</a>
         </article>
-        <div class="post-card span3"><img src="/assets/img/blog/2021-07/2021-07-27-octoprint-on-air-40-card.png"></div>
+        <div class="post-card span3"><img src="/assets/img/blog/2022-10/2022-10-05-octoprint-on-air-48-card.png"></div>
+    </div>
+    
+    
+    <div class="row-fluid post">
+        <article class="span9">
+            
+            <div class="categories">Release</div>
+            
+            <h1><a href="/blog/2022/09/27/new-release-1.8.4/">New release: 1.8.4</a></h1>
+
+            <div class="postmeta muted">
+                <span class="author">by Gina Häußge</span> &middot; <span class="date">27 Sep 2022</span>
+            </div>
+
+            <div class="excerpt">
+                This fourth bugfix release for 1.8.0 fixes a few newly reported issues and introduces a reverse proxy test page.
+            </div>
+
+            <a href="/blog/2022/09/27/new-release-1.8.4/" class="read-more">Read More...</a>
+        </article>
+        <div class="post-card span3"><img src="/assets/img/blog/2022-09/2022-09-27-octoprint-1.8.4-card.png"></div>
+    </div>
+    
+    
+    <div class="row-fluid post">
+        <article class="span9">
+            
+            <div class="categories">Release</div>
+            
+            <h1><a href="/blog/2022/09/20/new-release-1.8.3/">New release: 1.8.3</a></h1>
+
+            <div class="postmeta muted">
+                <span class="author">by Gina Häußge</span> &middot; <span class="date">20 Sep 2022</span>
+            </div>
+
+            <div class="excerpt">
+                This third bugfix & security release for 1.8.0 fixes a few new issues reported, including various security vulnerabilities.
+            </div>
+
+            <a href="/blog/2022/09/20/new-release-1.8.3/" class="read-more">Read More...</a>
+        </article>
+        <div class="post-card span3"><img src="/assets/img/blog/2022-09/2022-09-20-octoprint-1.8.3-card.png"></div>
     </div>
     
     
@@ -269,19 +348,19 @@
             
             <div class="categories">OctoPrint On Air</div>
             
-            <h1><a href="/blog/2021/05/28/octoprint-on-air-39/">OctoPrint On Air #39</a></h1>
+            <h1><a href="/blog/2022/08/22/octoprint-on-air-47/">OctoPrint On Air #47</a></h1>
 
             <div class="postmeta muted">
-                <span class="author">by Gina Häußge</span> &middot; <span class="date">28 May 2021</span>
+                <span class="author">by Gina Häußge</span> &middot; <span class="date">22 Aug 2022</span>
             </div>
 
             <div class="excerpt">
-                The thirty-ninth episode of a monthly live broadcast for Patrons which was recorded on May 21st 2021.
+                The 47th episode of a regular live broadcast for Patrons which was recorded on August 18th 2022.
             </div>
 
-            <a href="/blog/2021/05/28/octoprint-on-air-39/" class="read-more">Read More...</a>
+            <a href="/blog/2022/08/22/octoprint-on-air-47/" class="read-more">Read More...</a>
         </article>
-        <div class="post-card span3"><img src="/assets/img/blog/2021-05/2021-05-28-octoprint-on-air-39-card.png"></div>
+        <div class="post-card span3"><img src="/assets/img/blog/2022-08/2022-08-22-octoprint-on-air-47-card.png"></div>
     </div>
     
     
@@ -290,103 +369,40 @@
             
             <div class="categories">Release</div>
             
-            <h1><a href="/blog/2021/05/10/new-release-1.6.1/">New release: 1.6.1</a></h1>
+            <h1><a href="/blog/2022/08/09/new-release-1.8.2/">New release: 1.8.2</a></h1>
 
             <div class="postmeta muted">
-                <span class="author">by Gina Häußge</span> &middot; <span class="date">10 May 2021</span>
+                <span class="author">by Gina Häußge</span> &middot; <span class="date">09 Aug 2022</span>
             </div>
 
             <div class="excerpt">
-                This is a bugfix release to fix two bugs in OctoPrint 1.6.0.
+                This second bugfix & security release for 1.8.0 fixes a few new issues reported, including one security vulnerability.
             </div>
 
-            <a href="/blog/2021/05/10/new-release-1.6.1/" class="read-more">Read More...</a>
+            <a href="/blog/2022/08/09/new-release-1.8.2/" class="read-more">Read More...</a>
         </article>
-        <div class="post-card span3"><img src="/assets/img/blog/2021-05/2021-05-10-octoprint-1.6.1-card.png"></div>
+        <div class="post-card span3"><img src="/assets/img/blog/2022-08/2022-08-09-octoprint-1.8.2-card.png"></div>
     </div>
     
     
     <div class="row-fluid post">
         <article class="span9">
             
-            <div class="categories">Release</div>
+            <div class="categories">OctoPi</div>
             
-            <h1><a href="/blog/2021/04/27/new-release-1.6.0/">New release: 1.6.0</a></h1>
+            <h1><a href="/blog/2022/08/04/octopi-release-candidate-1-0-0rc2/">OctoPi Release Candidate 1.0.0rc2 needs testers!</a></h1>
 
             <div class="postmeta muted">
-                <span class="author">by Gina Häußge</span> &middot; <span class="date">27 Apr 2021</span>
+                <span class="author">by Gina Häußge</span> &middot; <span class="date">04 Aug 2022</span>
             </div>
 
             <div class="excerpt">
-                After over 4 months of development and an almost month long RC phase, I'm proud to present you OctoPrint 1.6.0!
+                Guy Sheffer has published a second release candidate for the release of OctoPi 1.0.0 and is looking for feedback!
             </div>
 
-            <a href="/blog/2021/04/27/new-release-1.6.0/" class="read-more">Read More...</a>
+            <a href="/blog/2022/08/04/octopi-release-candidate-1-0-0rc2/" class="read-more">Read More...</a>
         </article>
-        <div class="post-card span3"><img src="/assets/img/blog/2021-04/2021-04-27-octoprint-1.6.0-card.png"></div>
-    </div>
-    
-    
-    <div class="row-fluid post">
-        <article class="span9">
-            
-            <div class="categories">Release</div>
-            
-            <h1><a href="/blog/2021/04/21/new-release-candidate-1.6.0rc3/">New release candidate: 1.6.0rc3</a></h1>
-
-            <div class="postmeta muted">
-                <span class="author">by Gina Häußge</span> &middot; <span class="date">21 Apr 2021</span>
-            </div>
-
-            <div class="excerpt">
-                The third release candidate for the upcoming 1.6.0 release, with a one fix of a regression and one work around for a discovered firmware bug.
-            </div>
-
-            <a href="/blog/2021/04/21/new-release-candidate-1.6.0rc3/" class="read-more">Read More...</a>
-        </article>
-        <div class="post-card span3"><img src="/assets/img/blog/2021-04/2021-04-21-octoprint-1.6.0rc3-card.png"></div>
-    </div>
-    
-    
-    <div class="row-fluid post">
-        <article class="span9">
-            
-            <div class="categories">Release</div>
-            
-            <h1><a href="/blog/2021/04/14/new-release-candidate-1.6.0rc2/">New release candidate: 1.6.0rc2</a></h1>
-
-            <div class="postmeta muted">
-                <span class="author">by Gina Häußge</span> &middot; <span class="date">14 Apr 2021</span>
-            </div>
-
-            <div class="excerpt">
-                The second release candidate for the upcoming 1.6.0 release, with some fixes of regressions from the first one and some improvements in newly added functionality.
-            </div>
-
-            <a href="/blog/2021/04/14/new-release-candidate-1.6.0rc2/" class="read-more">Read More...</a>
-        </article>
-        <div class="post-card span3"><img src="/assets/img/blog/2021-04/2021-04-14-octoprint-1.6.0rc2-card.png"></div>
-    </div>
-    
-    
-    <div class="row-fluid post">
-        <article class="span9">
-            
-            <div class="categories">Release</div>
-            
-            <h1><a href="/blog/2021/03/30/new-release-candidate-1.6.0rc1/">New release candidate: 1.6.0rc1</a></h1>
-
-            <div class="postmeta muted">
-                <span class="author">by Gina Häußge</span> &middot; <span class="date">30 Mar 2021</span>
-            </div>
-
-            <div class="excerpt">
-                The first release candidate for the upcoming 1.6.0 release, containing new features, improvements and bug fixes.
-            </div>
-
-            <a href="/blog/2021/03/30/new-release-candidate-1.6.0rc1/" class="read-more">Read More...</a>
-        </article>
-        <div class="post-card span3"><img src="/assets/img/blog/2021-03/2021-03-30-octoprint-1.6.0rc1-card.png"></div>
+        <div class="post-card span3"><img src="/assets/img/blog/2022-08/2022-08-04-octopi-1.0.0rc2-card.png"></div>
     </div>
     
     
@@ -395,19 +411,40 @@
             
             <div class="categories">OctoPrint On Air</div>
             
-            <h1><a href="/blog/2021/03/16/octoprint-on-air-38/">OctoPrint On Air #38</a></h1>
+            <h1><a href="/blog/2022/06/28/octoprint-on-air-46/">OctoPrint On Air #46</a></h1>
 
             <div class="postmeta muted">
-                <span class="author">by Gina Häußge</span> &middot; <span class="date">16 Mar 2021</span>
+                <span class="author">by Gina Häußge</span> &middot; <span class="date">28 Jun 2022</span>
             </div>
 
             <div class="excerpt">
-                The thirty-eighth episode of a monthly live broadcast for Patrons which was recorded on March 16th 2021.
+                The 46th episode of a regular live broadcast for Patrons which was recorded on June 23rd 2022.
             </div>
 
-            <a href="/blog/2021/03/16/octoprint-on-air-38/" class="read-more">Read More...</a>
+            <a href="/blog/2022/06/28/octoprint-on-air-46/" class="read-more">Read More...</a>
         </article>
-        <div class="post-card span3"><img src="/assets/img/blog/2021-03/2021-03-16-octoprint-on-air-38-card.png"></div>
+        <div class="post-card span3"><img src="/assets/img/blog/2022-06/2022-06-28-octoprint-on-air-46-card.png"></div>
+    </div>
+    
+    
+    <div class="row-fluid post">
+        <article class="span9">
+            
+            <div class="categories">Release</div>
+            
+            <h1><a href="/blog/2022/05/24/new-release-1.8.1/">New release: 1.8.1</a></h1>
+
+            <div class="postmeta muted">
+                <span class="author">by Gina Häußge</span> &middot; <span class="date">24 May 2022</span>
+            </div>
+
+            <div class="excerpt">
+                This first bugfix & security release for 1.8.0 fixes a few new issues reported, including one security vulnerability.
+            </div>
+
+            <a href="/blog/2022/05/24/new-release-1.8.1/" class="read-more">Read More...</a>
+        </article>
+        <div class="post-card span3"><img src="/assets/img/blog/2022-05/2022-05-24-octoprint-1.8.1-card.png"></div>
     </div>
     
     
@@ -416,19 +453,19 @@
             
             <div class="categories">OctoPrint On Air</div>
             
-            <h1><a href="/blog/2021/02/01/octoprint-on-air-37/">OctoPrint On Air #37</a></h1>
+            <h1><a href="/blog/2022/05/23/octoprint-on-air-45/">OctoPrint On Air #45</a></h1>
 
             <div class="postmeta muted">
-                <span class="author">by Gina Häußge</span> &middot; <span class="date">01 Feb 2021</span>
+                <span class="author">by Gina Häußge</span> &middot; <span class="date">23 May 2022</span>
             </div>
 
             <div class="excerpt">
-                The thirty-seventh episode of a monthly live broadcast for Patrons which aired live on January 29th 2021.
+                The 45th episode of a regular live broadcast for Patrons which was recorded on May 19th 2022.
             </div>
 
-            <a href="/blog/2021/02/01/octoprint-on-air-37/" class="read-more">Read More...</a>
+            <a href="/blog/2022/05/23/octoprint-on-air-45/" class="read-more">Read More...</a>
         </article>
-        <div class="post-card span3"><img src="/assets/img/blog/2021-02/2021-02-01-octoprint-on-air-37-card.png"></div>
+        <div class="post-card span3"><img src="/assets/img/blog/2022-05/2022-05-23-octoprint-on-air-45-card.png"></div>
     </div>
     
 
@@ -453,53 +490,51 @@
       <footer>
           <div class="container">
               <div class="row">
-                  <div class="span4 footer-left-column">
-                      <h2>On the web</h2>
-                      <ul class="fa-ul">
-                          <li><span class="fa-li"><i class="fas fa-users fa-fw"></i></span><a href="https://community.octoprint.org" target="_blank">Community Forum</a></li>
-                          <li><span class="fa-li"><i class="fab fa-discord fa-fw"></i></span><a href="https://discord.octoprint.org" target="_blank">Discord</a></li>
-                          <li><span class="fa-li"><i class="fas fa-hashtag fa-fw"></i></span><a href="ircs://irc.libera.chat:6697/#octoprint" target="_blank">IRC</a> (#octoprint on <a href="https://libera.chat" target="_blank">libera.chat</a>)</li>
-                          <li><span class="fa-li"><i class="fab fa-twitter fa-fw"></i></span><a href="https://twitter.com/OctoPrint3D" target="_blank" rel="me">Twitter</a></li>
-                          <li><span class="fa-li"><i class="fab fa-mastodon fa-fw"></i></span><a href="https://fosstodon.org/@octoprint" target="_blank" rel="me">Mastodon</a></li>
-                          <li><span class="fa-li"><i class="fab fa-facebook-f fa-fw"></i></span><a href="https://facebook.com/OctoPrint" target="_blank" rel="me">Facebook</a></li>
-                          <li><span class="fa-li"><i class="fab fa-youtube fa-fw"></i></span><a href="https://www.youtube.com/c/OctoPrint3D" target="_blank">YouTube</a></li>
-                          <li><span class="fa-li"><i class="fas fa-tachometer-alt fa-fw"></i></span><a href="https://status.octoprint.org" target="_blank">Site Status</a></li>
-                          <li><span class="fa-li"><i class="fas fa-gavel fa-fw"></i></span><a href="/imprint/" rel="nofollow">Legal Notice</a></li>
-                          <li><span class="fa-li"><i class="fas fa-gavel fa-fw"></i></span><a href="/privacy/" rel="nofollow">Privacy Policy</a></li>
-                          <li><span class="fa-li"><i class="fas fa-gavel fa-fw"></i></span><a href="/conduct/" rel="nofollow">Code of Conduct</a></li>
-                      </ul>
-                  </div>
-                  <div class="span4">
-                      <h2>Recent Posts</h2>
-                      <div class="recent-posts">
-                          
-                          <div><a class="post-link" href="/blog/2022/05/24/new-release-1.8.1/">New release: 1.8.1</a><br><small>24 May 2022</small></div>
-                          
-                          <div><a class="post-link" href="/blog/2022/05/23/octoprint-on-air-45/">OctoPrint On Air #45</a><br><small>23 May 2022</small></div>
-                          
-                          <div><a class="post-link" href="/blog/2022/05/17/new-release-1.8.0/">New release: 1.8.0</a><br><small>17 May 2022</small></div>
-                          
-                          <div><a class="post-link" href="/blog/2022/04/12/new-release-candidate-1.8.0rc5/">New release candidate: 1.8.0rc5</a><br><small>12 Apr 2022</small></div>
-                          
-                          <div><a class="post-link" href="/blog/2022/04/07/octoprint-on-air-44/">OctoPrint On Air #44</a><br><small>07 Apr 2022</small></div>
-                          
-                      </div>
-                  </div>
-                  <div class="span4 footer-right-column">
-                      <h2>Big Thanks</h2>
-                      <p>
-                          Cross-browser testing services are kindly provided by <a href="https://www.browserstack.com">BrowserStack</a>.
-                          Profiling is done with the help of <a href="https://www.pyvmmonitor.com">PyVmMonitor</a>.
-                          Error tracking is powered and sponsored by <a href="https://sentry.io">Sentry</a>.
-                      </p>
-                      <p>
-                          Development would be impossible without the <a href="/support-octoprint/" data-event-category="supportlink" data-event-action="footer">financial support of the community</a>.
-                      </p>
+                <div class="span4 footer-left-column">
+                    <h2>On the web</h2>
+                    <ul class="fa-ul">
+                        <li><span class="fa-li"><i class="fab fa-github fa-fw"></i></span><a href="https://github.com/OctoPrint/OctoPrint" target="_blank">GitHub</a></li>
+                        <li><span class="fa-li"><i class="fas fa-users fa-fw"></i></span><a href="https://community.octoprint.org" target="_blank">Community Forum</a></li>
+                        <li><span class="fa-li"><i class="fab fa-discord fa-fw"></i></span><a href="https://discord.octoprint.org" target="_blank">Discord</a></li>
+                        <li><span class="fa-li"><i class="fas fa-hashtag fa-fw"></i></span><a href="ircs://irc.libera.chat:6697/#octoprint" target="_blank">IRC</a> (#octoprint on <a href="https://libera.chat" target="_blank">libera.chat</a>)</li>
+                        <li><span class="fa-li"><i class="fab fa-mastodon fa-fw"></i></span><a href="https://fosstodon.org/@octoprint" target="_blank" rel="me">Mastodon</a></li>
+                        <li><span class="fa-li"><i class="fab fa-youtube fa-fw"></i></span><a href="https://www.youtube.com/c/OctoPrint3D" target="_blank">YouTube</a></li>
+                        <li><span class="fa-li"><i class="fas fa-tachometer-alt fa-fw"></i></span><a href="https://status.octoprint.org" target="_blank">Site Status</a></li>
+                        <li><span class="fa-li"><i class="fas fa-hammer fa-fw"></i></span><a href="/conduct/" rel="nofollow">Code of Conduct</a></li>
+                        <li><span class="fa-li"><i class="fas fa-lock fa-fw"></i></span><a href="/security/" rel="nofollow">Security Policy</a></li>
+                    </ul>
+                </div>
+                <div class="span4">
+                    <h2>Recent Posts</h2>
+                    <div class="recent-posts">
+                        
+                        <div><a class="post-link" href="/blog/2023/08/03/octoprint-on-air-53/">OctoPrint On Air #53</a><br><small>03 Aug 2023</small></div>
+                        
+                        <div><a class="post-link" href="/blog/2023/07/18/new-release-1.9.2/">New release: 1.9.2</a><br><small>18 Jul 2023</small></div>
+                        
+                        <div><a class="post-link" href="/blog/2023/06/27/new-release-1.9.1/">New release: 1.9.1</a><br><small>27 Jun 2023</small></div>
+                        
+                        <div><a class="post-link" href="/blog/2023/06/19/octoprint-on-air-52/">OctoPrint On Air #52</a><br><small>19 Jun 2023</small></div>
+                        
+                        <div><a class="post-link" href="/blog/2023/05/24/a-new-camera-stack-for-octopi/">A new camera stack for OctoPi</a><br><small>24 May 2023</small></div>
+                        
+                    </div>
+                </div>
+                <div class="span4 footer-right-column">
+                    <h2>Big Thanks</h2>
+                    <p>
+                        Cross-browser testing services are kindly provided by <a href="https://www.browserstack.com">BrowserStack</a>.
+                        Profiling is done with the help of <a href="https://www.pyvmmonitor.com">PyVmMonitor</a>.
+                        Error tracking is powered and sponsored by <a href="https://sentry.io">Sentry</a>.
+                    </p>
+                    <p>
+                        Development would be impossible without the <a href="/support-octoprint/" data-analytics='"Support Click", { "props": { "origin": "footer"} }'>financial support of the community</a>.
+                    </p>
                   </div>
               </div>
               <div class="row">
                   <div class="span12 text-center legal">
-                      <small>"OctoPrint" is a <a href="/trademark-rules/">registered trademark</a></small>
+                      <small>"OctoPrint" is a <a href="/trademark-rules/">registered trademark</a> &middot; <a href="/imprint/" rel="nofollow">Imprint</a> &middot; <a href="/privacy/" rel="nofollow">Privacy Policy</a></small>
                   </div>
               </div>
           </div>
@@ -508,47 +543,16 @@
 
 <a href="#top" class="to-top" title="Back to top" data-scroll><i class="fa fa-arrow-up fa-2x"></i></a>
 
-<script src="/assets/js/jquery.min.js?_=1655346851"></script>
-<script src="/assets/js/lodash.min.js?_=1655346851"></script>
-<script src="/assets/js/prettify.min.js?_=1655346851"></script>
-<script src="/assets/js/holder-2.9.3.min.js?_=1655346851"></script>
-<script src="/assets/vendor/slick-1.5.9/slick.min.js?_=1655346851"></script>
-<script src="/assets/js/bootstrap.min.js?_=1655346851"></script>
-<script src="/assets/js/lightbox.min.js?_=1655346851"></script>
-<script src="/assets/js/smooth-scroll.min.js?_=1655346851"></script>
-<script src="/assets/js/site.js?_=1655346851"></script>
-<script src="/assets/js/yt-with-consent.js?_=1655346851"></script>
-<script src="/assets/js/autotrack.js?_=1655346851"></script>
-
-<!-- Google Analytics -->
-<script>
-    var gaBaseProperty = 'UA-62479257';
-    var gaProperty = gaBaseProperty + '-1';
-
-    // opt out
-    var disableStr = 'ga-disable-' + gaProperty;
-    var disableCookie = 'ga-disable-' + gaBaseProperty;
-    function gaOptout() {
-        document.cookie = disableCookie + '=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/; domain=octoprint.org';
-        window[disableStr] = true;
-        alert("Google Analytics ist jetzt deaktiviert! / Google Analytics is now deactivated!")
-    }
-
-    // tracking code
-    if (document.cookie.indexOf(disableCookie + '=true') > -1) {
-        window[disableStr] = true;
-    } else {
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', gaProperty, 'auto');
-        ga('require', 'autotrack');
-        ga('set', 'anonymizeIp', true);
-        ga('send', 'pageview');
-    }
-</script>
+<script src="/assets/js/jquery.min.js?_=1694807054"></script>
+<script src="/assets/js/lodash.min.js?_=1694807054"></script>
+<script src="/assets/js/prettify.min.js?_=1694807054"></script>
+<script src="/assets/js/holder-2.9.3.min.js?_=1694807054"></script>
+<script src="/assets/vendor/slick-1.5.9/slick.min.js?_=1694807054"></script>
+<script src="/assets/js/bootstrap.min.js?_=1694807054"></script>
+<script src="/assets/js/lightbox.min.js?_=1694807054"></script>
+<script src="/assets/js/smooth-scroll.min.js?_=1694807054"></script>
+<script src="/assets/js/site.js?_=1694807054"></script>
+<script src="/assets/js/yt-with-consent.js?_=1694807054"></script>
 
 </body>
 </html>

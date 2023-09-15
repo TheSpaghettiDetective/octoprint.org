@@ -2,20 +2,27 @@
   "os_list": [
     {
       "name": "OctoPi (stable)",
-      "description": "OctoPi 0.18.0 with OctoPrint 1.8.1 (build 20220524101555)",
-      "url": "https://github.com/OctoPrint/OctoPi-UpToDate/releases/download/0.18.0-1.8.1-20220524101555/octopi-0.18.0-1.8.1-20220524101555.zip",
+      "description": "OctoPi 1.0.0 with OctoPrint 1.9.2 (build 20230718111854)",
+      "url": "https://github.com/OctoPrint/OctoPi-UpToDate/releases/download/1.0.0-1.9.2-20230718111854/octopi-1.0.0-1.9.2-20230718111854.zip",
       "icon": "https://octopi.octoprint.org/rpi-imager.png",
-      "release_date": "2022-05-24",
-      "extract_size": 2489319424,
-      "extract_sha256": "e66172e63534b8abd8aa594aea633b44f8d7eaa69f99b0500255fc1aeefeee09",
-      "image_download_size": 920711629,
-      "image_download_sha256": "25a6872cd1ccea93b715d524eff7a759c40cff0a60bb399cd077dbb77e64563a",
+      "release_date": "2023-07-18",
+      "extract_size": 2906653696,
+      "extract_sha256": "9edaaf018c902f158e0c772c0925dd0248d885bb00758bff61c0c6df639e01db",
+      "image_download_size": 1103582957,
+      "image_download_sha256": "a5363d055ca163e121e5f072107a982707c3447aa036737f671c58181a2d62fb",
       "init_format": "systemd"
     },
     {
-      "name": "OctoPi Nightlies",
-      "description": "Nightly OctoPi builds, untested, bleeding edge",
-      "subitems_url": "https://octoprint.org/files/rpi-imager-nightlies.json"
+      "name": "OctoPi (new camera stack)",
+      "description": "OctoPi 1.0.0 with OctoPrint 1.9.2 (build 20230720144556 from branch camera-streamer)",
+      "url": "https://github.com/OctoPrint/OctoPi-UpToDate/releases/download/1.0.0-1.9.2-20230720144556/octopi-1.0.0-1.9.2-20230720144556.zip",
+      "icon": "https://octopi.octoprint.org/rpi-imager.png",
+      "release_date": "2023-07-20",
+      "extract_size": 2906653696,
+      "extract_sha256": "31278e0defe102b28895e9f8a8aaa4baa1dd7dd837daa047eb234d6ee414eae2",
+      "image_download_size": 1109969087,
+      "image_download_sha256": "b033f37b06fc8bb835d540672f75ec4bb061492fb44030c64c7657da310f9ce4",
+      "init_format": "systemd"
     }
   ]
 }
